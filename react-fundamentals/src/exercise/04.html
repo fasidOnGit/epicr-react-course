@@ -1,0 +1,46 @@
+<!-- Creating custom components -->
+<!-- http://localhost:3000/isolated/exercise/04.html -->
+
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@17.0.0/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.12.4/babel.js"></script>
+  <script type="text/babel">
+    const PropTypes = {
+      string(props, propName, componentName) {
+        const type = typeof props[propName]
+        if (type !== 'string') {
+          return new Error(
+            `Hey, the component ${componentName} needs the prop ${propName} to be number but ${type}`,
+          )
+        }
+      },
+    }
+    const message = ({children}) => <div className="message">{children}</div>
+    const Message = ({message}) => <div className="message">{message}</div>
+
+    Message.propTypes = {
+      message: PropTypes.string,
+    }
+    const element = (
+      <>
+        <div className="container">{message({children: 'Hello World'})}</div>
+        <div className="container">{message({children: 'GoodBye World'})}</div>
+      </>
+    )
+    const element1 = React.createElement(message, {children: 'Hello World'})
+    // ReactDOM.render(element, document.getElementById('root'))
+    // ReactDOM.render(element1, document.getElementById('root'))
+    ReactDOM.render(
+      <>
+        <Message message="Hello World" />
+        <Message message="Goodbye World" />
+        <Message message={656} />
+        {element}
+        {element1}
+      </>,
+      document.getElementById('root'),
+    )
+  </script>
+</body>
